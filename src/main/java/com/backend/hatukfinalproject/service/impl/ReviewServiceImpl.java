@@ -40,8 +40,9 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 
 	@Override
-	public Iterable<Review> showReviews() {
-		return reviewRepo.findAll();
+	public Iterable<Review> showReviewsById(int therapistId, int offset) {
+//		return reviewRepo.findAll();
+		return reviewRepo.findAllLimit(therapistId, offset);
 	}
 
 }

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.backend.hatukfinalproject.dao.BookingRequestRepo;
 import com.backend.hatukfinalproject.dao.CityRepo;
+import com.backend.hatukfinalproject.dao.ReviewRepo;
+import com.backend.hatukfinalproject.dao.TransactionRepo;
 import com.backend.hatukfinalproject.dao.UserRepo;
 import com.backend.hatukfinalproject.entity.City;
 import com.backend.hatukfinalproject.entity.User;
@@ -50,7 +54,42 @@ public class UserController {
 	private UserRepo userRepo;
 	
 	@Autowired
+	private BookingRequestRepo bookingRepo;
+	
+	@Autowired
+	private TransactionRepo transactionRepo;
+	
+	@Autowired
+	private ReviewRepo reviewRepo;
+	
+	@Autowired
 	private UserService userService;
+	
+	@GetMapping("/pure")
+	public Iterable<User> findAll(){
+		return userRepo.findAll();
+	}
+	
+	@GetMapping
+	public Iterable <User> getAllUsers () {
+		return userService.getAllUsers();
+	}
+	
+//	Belom ditaro di service impl
+	@GetMapping("/findbyid")
+	public Optional<User> findUserById (@RequestParam int userId) {
+		return userRepo.findById(userId);
+	}
+	
+	@GetMapping("/topspending")
+	public Iterable<Object[]> findTopSpendingUser() {
+		return userService.findTopSpendingUser();
+	}
+	
+	@GetMapping("/therapist")
+	public Iterable <User> getAllTherapist () {
+		return userService.getAllTherapists();
+	}
 	
 	@GetMapping("/login")
 	public User userLogin (@RequestParam String username, @RequestParam String password) {
@@ -97,8 +136,22 @@ public class UserController {
 		return userService.editProfilePicture(userId, profilePicture);
 	}
 	
-//	@PutMapping("/edituserprofile")
-//	public User editUserProfile(@RequestParam String currPass, @RequestParam ("editUserForm") String editUserForm, @RequestParam ("profilePicture") MultipartFile profilePicture) throws JsonMappingException, JsonProcessingException {
-//		return userService.editUserProfile(currPass, profilePicture, editUserForm);
-//	}
+	@DeleteMapping("/deleteuser")
+	public void deleteUser (@RequestParam int userId) {
+		User findUser = userRepo.findById(userId).get();
+		
+		findUser.getReviews().forEach(review -> {
+			reviewRepo.delete(review);
+		});
+		
+		findUser.getTransactions().forEach(trx -> {
+			trx.getBookingRequests().forEach(req -> {
+				bookingRepo.delete(req);
+			});
+			transactionRepo.delete(trx);
+		});
+		
+		userRepo.delete(findUser);
+	}
+
 }

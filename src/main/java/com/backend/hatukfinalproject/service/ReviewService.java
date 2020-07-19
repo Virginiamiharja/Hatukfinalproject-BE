@@ -6,6 +6,6 @@ public interface ReviewService {
 	
 	public Review addReview(Review review, int userId, int therapistDetailId);
 	
-	public Iterable<Review> showReviews();
+	public Iterable<Review> showReviewsById(int therapistId, int offset);
 
 }

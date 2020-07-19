@@ -35,9 +35,19 @@ public class TherapistServiceSchedule {
 //	@JsonIgnore
 	private List<BookingRequest> requests;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceSchedule", cascade = CascadeType.ALL) 
-//	@JsonIgnore
+	@JsonIgnore
 	private List<TransactionDetail> transactionDetails;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "serviceSchedule", cascade = CascadeType.ALL) 
+	@JsonIgnore
+	private List<Transaction> transactions;
 	
+	
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 	public List<TransactionDetail> getTransactionDetails() {
 		return transactionDetails;
 	}

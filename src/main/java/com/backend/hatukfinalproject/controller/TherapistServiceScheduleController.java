@@ -33,7 +33,7 @@ public class TherapistServiceScheduleController {
 		return scheduleService.getScheduleById(scheduleId);
 	}
 	
-	@PostMapping("/add")
+	@GetMapping("/add")
 	public TherapistServiceSchedule addSchedule(@RequestParam int therapistId, @RequestParam int dayId, @RequestParam int hourId) {
 		return scheduleService.addSchedule(therapistId, dayId, hourId);
 	}

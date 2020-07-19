@@ -6,20 +6,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.backend.hatukfinalproject.entity.Day;
-import com.backend.hatukfinalproject.service.DayService;
+import com.backend.hatukfinalproject.dao.WorkingHourRepo;
+import com.backend.hatukfinalproject.entity.WorkingHour;
+
 
 @RestController
 @CrossOrigin
-@RequestMapping("/days")
-public class DayController {
+@RequestMapping("/hours")
+public class HourController {
 	
 	@Autowired
-	private DayService dayService;
+	private WorkingHourRepo hourRepo;
 	
 	@GetMapping
-	public Iterable<Day> getDays() {
-		return dayService.getAllDays();
+	public Iterable<WorkingHour> getHours() {
+		return hourRepo.findAll();
 	}
 
+
 }
+

@@ -32,17 +32,19 @@ public class TherapistDetailServiceImpl implements TherapistDetailService {
 	
 	@Override
 	@Transactional
-	public Iterable<TherapistDetail> getAllTherapistDetails(String sortType) {
+	public Iterable<TherapistDetail> getAllTherapistDetails(int offset, String sortType) {
 		if(sortType.contains("ratingdesc")) {
-			return therapistDetailRepo.getTherapistWithRatingDesc();
+			return therapistDetailRepo.getTherapistWithRatingDesc(offset);
 		} else if(sortType.contains("ratingasc")) {
-			return therapistDetailRepo.getTherapistWithRatingAsc();
+			return therapistDetailRepo.getTherapistWithRatingAsc(offset);
 		} else if(sortType.contains("pricedesc")) {
-			return therapistDetailRepo.getTherapistWithPriceDesc();
+			return therapistDetailRepo.getTherapistWithPriceDesc(offset);
 		} else if(sortType.contains("priceasc")) {
-			return therapistDetailRepo.getTherapistWithPriceAsc();
+			return therapistDetailRepo.getTherapistWithPriceAsc(offset);
+		} else if (sortType.contains("dashboard")) {
+			return therapistDetailRepo.findAll();
 		}
-		return therapistDetailRepo.findAll();
+		return therapistDetailRepo.getTherapistCustom(offset);
 	}
 
 	@Override
@@ -67,6 +69,11 @@ public class TherapistDetailServiceImpl implements TherapistDetailService {
 	@Override
 	public TherapistDetail showTherapistDetailById(int therapistDetailId) {
 		return therapistDetailRepo.findById(therapistDetailId).get();
+	}
+
+	@Override
+	public Iterable<Object[]> findTherapistCustom() {
+		return therapistDetailRepo.findTherapistCustom();
 	}
 
 }

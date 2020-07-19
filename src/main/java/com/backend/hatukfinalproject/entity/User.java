@@ -20,7 +20,6 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-
 	private String name;
 	private String username;
 	private String email;
@@ -28,7 +27,7 @@ public class User {
 	private String phoneNumber;
 	private String image;
 	private String role;
-//	Field untuk nampung cityId
+//	Field untuk nampung cityId 
 	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	@JoinColumn(name = "city_id")
 	private City city;
@@ -39,22 +38,21 @@ public class User {
 	private String address;
 	private boolean isVerified;
 	private String verifyToken;
+//	Ini doang yang gaada fieldnya di front end
 	@OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-	// Kadang di get dia ngeloop banyak gitu jadi kasih ini buat jaga2
 	@JsonIgnore
 	private TherapistDetail therapistDetail;
-//	Untuk nyambungin sama rating
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL) 
 	@JsonIgnore
 	private List<Review> reviews;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL) 
-//	@JsonIgnore
+	@JsonIgnore
 	private List<BookingRequest> requests;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL) 
 //	@JsonIgnore
 	private List<Transaction> transactions;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL) 
-//	@JsonIgnore
+	@JsonIgnore
 	private List<TransactionDetail> transactionDetails;
 	
 	public List<TransactionDetail> getTransactionDetails() {

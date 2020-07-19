@@ -28,15 +28,34 @@ public class Transaction {
 	@JoinColumn(name = "user_id")
 	@JsonIgnore
 	private User user;
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "serviceschedule_id")
+	@JsonIgnore
+	private TherapistServiceSchedule serviceSchedule;
+	@ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@JoinColumn(name = "therapistdetail_id")
+	@JsonIgnore
+	private TherapistDetail therapistDetail;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "transaction", cascade = CascadeType.ALL) 
-//	@JsonIgnore
+	@JsonIgnore
 	private List<TransactionDetail> transactionDetails;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "transaction", cascade = CascadeType.ALL) 
 //	@JsonIgnore
 	private List<BookingRequest> bookingRequests;
 	private Date createdAt;
 	
-	
+	public TherapistDetail getTherapistDetail() {
+		return therapistDetail;
+	}
+	public void setTherapistDetail(TherapistDetail therapistDetail) {
+		this.therapistDetail = therapistDetail;
+	}
+	public TherapistServiceSchedule getServiceSchedule() {
+		return serviceSchedule;
+	}
+	public void setServiceSchedule(TherapistServiceSchedule serviceSchedule) {
+		this.serviceSchedule = serviceSchedule;
+	}
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -91,5 +110,5 @@ public class Transaction {
 	public void setImage(String image) {
 		this.image = image;
 	}
-
+	
 }

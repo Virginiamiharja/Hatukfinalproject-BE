@@ -27,8 +27,8 @@ public class ReviewController {
 	}
 	
 	@GetMapping
-	public Iterable <Review> showReviews() {
-		return reviewService.showReviews();
+	public Iterable <Review> showReviewsById(@RequestParam int therapistId, @RequestParam int offset) {
+		return reviewService.showReviewsById(therapistId, offset);
 	}
 
 }

@@ -23,7 +23,6 @@ public class TherapistDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
 //	Field untuk nampung userId
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
@@ -48,7 +47,17 @@ public class TherapistDetail {
 //	Untuk nyambungin sama schedule
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "therapistDetail", cascade = CascadeType.ALL) 
 	private List<TherapistServiceSchedule> therapistServiceSchedules;
+//	Untuk nyambungin sama transaksi
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "therapistDetail", cascade = CascadeType.ALL) 
+	private List<Transaction> transactions;
 	
+	
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
 	public int getId() {
 		return id;
 	}

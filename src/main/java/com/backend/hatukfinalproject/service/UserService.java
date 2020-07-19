@@ -11,6 +11,8 @@ public interface UserService {
 	
 	public Iterable <User> getAllUsers();
 	
+	public Iterable <User> getAllTherapists();
+	
 	public User userLogin (String username, String password);
 	
 	public User userKeepLogin (int userId);
@@ -28,6 +30,8 @@ public interface UserService {
 	public User editUserProfile (int cityId, String currPass, User user);
 	
 	public User editProfilePicture(int userId, MultipartFile profilePicture) throws JsonMappingException, JsonProcessingException;
+	
+	public Iterable<Object[]> findTopSpendingUser();
 	
 //	public User editUserProfile (String currPass, MultipartFile profilePicture, String editUserForm) throws JsonMappingException, JsonProcessingException;
 

@@ -38,15 +38,21 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private EmailUtil emailUtil;
 
-	@Override
-	@Transactional
-	public Iterable<User> getAllUsers() {
-		return userRepo.findAll();
-	}
-	
 	private PasswordEncoder pwEncoder = new BCryptPasswordEncoder();
 	
 	private String uploadPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\images\\";
+
+	@Override
+	@Transactional
+	public Iterable<User> getAllUsers() {
+		return userRepo.findAllUser();
+	}
+	
+	@Override
+	@Transactional
+	public Iterable<User> getAllTherapists() {
+		return userRepo.findAllTherapist();
+	}
 
 	@Override
 	public User userLogin(String username, String password) {
@@ -165,6 +171,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepo.findByEmail(email).get();
 		
 		String resetPassLink = "http://localhost:3000/resetpassword/" + user.getId();
+//		String resetPassLink = "http://localhost:3000/resetpassword/" + user.getVerifyToken();
 				
 		String message = "<h1>Reset Password</h1>\n";
 		message += "Hi " + user.getUsername() + " This is a link to reset your password!\n";
@@ -195,9 +202,11 @@ public class UserServiceImpl implements UserService {
 //	Ini buat validasi biar walaupun di edit gaada username atau email yang sama
 //	Optional<User> findUsername = userRepo.findByUsername(user.getUsername());
 //	Optional<User> findUserEmail = userRepo.findByEmail(user.getEmail());
-		
+
+		user.setTransactions(findUser.getTransactions());
 		user.setCity(findCity);
 		return userRepo.save(user);
+//		return null;
 	}
 
 	@Override
@@ -221,6 +230,11 @@ public class UserServiceImpl implements UserService {
 		findUser.setImage(image);
 		
 		return userRepo.save(findUser);
+	}
+
+	@Override
+	public Iterable<Object[]> findTopSpendingUser() {
+		return userRepo.findTopSpendingUser();
 	}
 	
 //	@Override

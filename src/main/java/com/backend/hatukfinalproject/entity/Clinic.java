@@ -34,7 +34,6 @@ public class Clinic {
 	private String rt;
 	private String rw;
 	private String address;
-	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "clinic", cascade = CascadeType.ALL) 
 	@JsonIgnore
 	private List<TherapistDetail> therapistDetails;

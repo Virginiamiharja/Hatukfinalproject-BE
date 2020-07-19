@@ -91,14 +91,11 @@ public class TransactionServiceImpl implements TransactionService {
 			
 			String message = "<h1>Congrats! Your payment has been accepted</h1>\n";
 			
-//			message += "Dear ms/mr. " + transaction.getUser().getName() + "\n\n\n" ;
-//			message += "Your appointment with ms/mr. " + transaction.getTherapistDetail().getUser().getName() + " has been approved";
+			message += "Dear ms/mr. " + findTransaction.getUser().getName() + "\n\n\n" ;
+			message += "Your appointment with ms/mr. " + findTransaction.getTherapistDetail().getUser().getName() + " has been approved";
 			message += "Total price " + transaction.getTotalPrice() + " for " + transaction.getBookingRequests().size() + " meeting/s \n";
-			transaction.getBookingRequests().forEach(request -> {
-//				message += "Date : " + request.getServiceDate() + "\n";
-			});
 			message += "Thank you";
-			this.emailUtil.sendEmail("virgnm@gmail.com", "Mom Story - Invoice", message);
+			this.emailUtil.sendEmail(findTransaction.getUser().getEmail(), "Mom Story - Invoice", message);
 			
 		} else if (transaction.getStatus().equals("finish")) {
 			
